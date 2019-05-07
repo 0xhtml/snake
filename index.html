@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake</title>
+</head>
+<body style="text-align: center">
+<h1>Snake</h1>
+<canvas id="game" style="background-color: black"></canvas>
+<p>Green snake: Arrow keys</p>
+<p>Gray snake: I J K L</p>
+<p>Blue snake: W A S D</p>
+
+<script src="snake.js"></script>
+<script src="game.js"></script>
+<script>
+    const game = new Game(document.getElementById("game"));
+    let subFrame = 0;
+    setInterval(() => {
+        game.update(subFrame % 3 !== 0);
+        game.draw();
+        subFrame++;
+    }, 100);
+</script>
+</body>
+</html>
