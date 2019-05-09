@@ -10,17 +10,28 @@
 <p>Yellow snake: Arrow keys</p>
 <p>Green snake: I J K L</p>
 <p>Blue snake: W A S D</p>
+<p><label for="speedIn">Speed</label> <input id="speedIn" max="99" min="0" onmousemove="speedOut()" type="range"
+                                             value="30"> <span id="speedOut">30</span></p>
 
 <script src="snake.js"></script>
 <script src="game.js"></script>
 <script>
     const game = new Game(document.getElementById("game"));
     let subFrame = 0;
-    setInterval(() => {
+
+    function tick() {
         game.update(subFrame % 4 !== 0);
         game.draw();
         subFrame++;
-    }, 70);
+        setTimeout(tick, 100 - parseInt(document.getElementById("speedIn").value));
+    }
+
+    function speedOut() {
+        document.getElementById("speedOut").innerHTML = document.getElementById("speedIn").value;
+    }
+
+    speedOut();
+    setTimeout(tick, 100 - parseInt(document.getElementById("speedIn").value));
 </script>
 </body>
 </html>
