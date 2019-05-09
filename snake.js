@@ -1,10 +1,14 @@
 class Snake {
-    constructor(startX, startY, color, keys) {
+    constructor(startX, startY, color, keys, borders) {
+        this.textX = 10;
+        this.textY = startY * 20 + 17;
         this.snake = [[startX, startY]];
-        this.direction = 0;
+        this.color = color;
+        this.borders = borders;
+
+        this.direction = 1;
         this.canChangeDirection = true;
         this.length = 6;
-        this.color = color;
         this.keys = keys;
         this.alive = true;
 
@@ -40,55 +44,90 @@ class Snake {
         });
     }
 
-    updateHead(subFrame) {
-        if (this.alive && !subFrame) {
-            const snakeHeadPosition = this.snake[this.snake.length - 1];
-            this.snake.push([snakeHeadPosition[0] + this.x(), snakeHeadPosition[1] + this.y()]);
-        }
-    }
+    update(subFrame) {
+        if (this.alive) {
+            if (!subFrame) {
+                const snakeHeadPosition = this.getHeadPosition();
+                const newSnakeHeadPosition = [snakeHeadPosition[0] + this.x(), snakeHeadPosition[1] + this.y()];
 
-    updateTail(subFrame) {
-        if ((this.snake.length > this.length && !subFrame) || !this.alive) {
+                for (let position of this.snake) {
+                    if (position[0] === newSnakeHeadPosition[0] && position[1] === newSnakeHeadPosition[1]) {
+                        this.alive = false;
+                        break;
+                    }
+                }
+                if (newSnakeHeadPosition[0] < this.borders[0] || newSnakeHeadPosition[1] < this.borders[1] || newSnakeHeadPosition[0] > this.borders[2] || newSnakeHeadPosition[1] > this.borders[3]) {
+                    this.alive = false;
+                }
+
+                if (this.alive) {
+                    this.snake.push(newSnakeHeadPosition);
+                }
+                if (this.snake.length > this.length) {
+                    this.snake.splice(0, 1);
+                }
+                this.canChangeDirection = true;
+            }
+        } else {
             this.snake.splice(0, 1);
         }
-        this.canChangeDirection = true;
     }
 
     draw(ctx) {
-        const snakeHeadPosition = this.snake[this.snake.length - 1];
-        this.snake.forEach(position => {
-            if (position[0] === snakeHeadPosition[0] && position[1] === snakeHeadPosition[1] && this.alive) {
-                ctx.fillStyle = "light" + this.color;
+        ctx.fillStyle = "rgb(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ")";
+        ctx.font = "20px Arial";
+        ctx.fillText((this.length - 6).toString(), this.textX, this.textY);
+
+        const snakeHeadPosition = this.getHeadPosition();
+        const length = this.snake.length;
+        for (let i = 0; i < length; i++) {
+            let r = this.color[0];
+            let g = this.color[1];
+            let b = this.color[2];
+            if (this.snake[i][0] === snakeHeadPosition[0] && this.snake[i][1] === snakeHeadPosition[1] && this.alive) {
+                r += 127;
+                g += 127;
+                b += 127;
             } else {
-                ctx.fillStyle = this.color;
+                r -= (length - i) * (127 / length);
+                g -= (length - i) * (127 / length);
+                b -= (length - i) * (127 / length);
             }
-            ctx.fillRect(position[0] * 20 + 1, position[1] * 20 + 1, 18, 18);
-        });
+            r = Math.max(0, Math.min(255, r));
+            g = Math.max(0, Math.min(255, g));
+            b = Math.max(0, Math.min(255, b));
+            ctx.fillStyle = "rgb(" + r + ", " + g + ", " + b + ")";
+            ctx.fillRect(this.snake[i][0] * 20 + 1, this.snake[i][1] * 20 + 1, 18, 18);
+        }
     }
 
     x() {
         switch (this.direction) {
             case 0:
-                return 1;
+                return 0;
             case 1:
-                return 0;
+                return 1;
             case 2:
-                return -1;
-            case 3:
                 return 0;
+            case 3:
+                return -1;
         }
     }
 
     y() {
         switch (this.direction) {
             case 0:
-                return 0;
-            case 1:
                 return 1;
-            case 2:
+            case 1:
                 return 0;
-            case 3:
+            case 2:
                 return -1;
+            case 3:
+                return 0;
         }
+    }
+
+    getHeadPosition() {
+        return this.snake[this.snake.length - 1];
     }
 }

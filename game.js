@@ -4,11 +4,12 @@ class Game {
         canvas.height = 25 * 20;
         this.width = canvas.width;
         this.height = canvas.height;
+        this.borders = [0, 0, this.width / 20 - 1, this.height / 20 - 1];
 
         this.snakes = [
-            new Snake(5, 5, "green", ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]),
-            new Snake(5, 12, "gray", ["l", "k", "j", "i"]),
-            new Snake(5, 19, "blue", ["d", "s", "a", "w"])
+            new Snake(5, 5, [255, 255, 0], ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"], this.borders),
+            new Snake(5, 12, [0, 255, 0], ["k", "l", "i", "j"], this.borders),
+            new Snake(5, 19, [0, 0, 255], ["s", "d", "w", "a"], this.borders)
         ];
         this.moveApple();
 
@@ -17,42 +18,39 @@ class Game {
     }
 
     moveApple() {
-        this.apple = [Math.floor(Math.random() * this.width / 20), Math.floor(Math.random() * this.height / 20)];
-        this.snakes.forEach(snake => {
-            snake.snake.forEach(part => {
-                if (part[0] === this.apple[0] && part[1] === this.apple[1]) {
+        this.apple = [Math.floor(Math.random() * this.borders[2]), Math.floor(Math.random() * this.borders[3])];
+        for (let i = 0; i < this.snakes.length; i++) {
+            for (let position of this.snakes[i].snake) {
+                if (position[0] === this.apple[0] && position[1] === this.apple[1]) {
                     this.moveApple();
+                    return;
                 }
-            });
-        });
+            }
+        }
     }
 
     update(subFrame) {
-        this.snakes.forEach(snake => {
-            if (snake.alive && !subFrame) {
-                const snakePreHeadPosition = snake.snake[snake.snake.length - 1];
-                if (snakePreHeadPosition[0] < 0 || snakePreHeadPosition[1] < 0 || snakePreHeadPosition[0] > this.width / 20 || snakePreHeadPosition[1] > this.height / 20) {
-                    snake.alive = false;
-                } else {
-                    this.snakes.forEach(sSnake => {
-                        sSnake.snake.forEach(part => {
-                            if (part[0] === snakePreHeadPosition[0] + snake.x() && part[1] === snakePreHeadPosition[1] + snake.y()) {
-                                snake.alive = false;
-                            }
-                        });
-                    });
-                }
-            }
-            snake.updateHead(subFrame);
-            if (snake.alive && !subFrame) {
-                const snakeHeadPosition = snake.snake[snake.snake.length - 1];
-                if (this.apple[0] === snakeHeadPosition[0] && this.apple[1] === snakeHeadPosition[1]) {
+        for (let i = 0; i < this.snakes.length; i++) {
+            this.snakes[i].update(subFrame);
+            if (this.snakes[i].alive) {
+                const snakeHeadPosition = this.snakes[i].getHeadPosition();
+                if (snakeHeadPosition[0] === this.apple[0] && snakeHeadPosition[1] === this.apple[1]) {
+                    this.snakes[i].length++;
                     this.moveApple();
-                    snake.length++;
+                }
+                for (let j = 0; j < this.snakes.length; j++) {
+                    if (j === i) {
+                        continue;
+                    }
+                    for (let position of this.snakes[j].snake) {
+                        if (position[0] === snakeHeadPosition[0] && position[1] === snakeHeadPosition[1]) {
+                            this.snakes[i].alive = false;
+                            break;
+                        }
+                    }
                 }
             }
-            snake.updateTail(subFrame);
-        });
+        }
     }
 
     draw() {

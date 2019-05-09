@@ -7,8 +7,8 @@
 <body style="text-align: center">
 <h1>Snake</h1>
 <canvas id="game" style="background-color: black"></canvas>
-<p>Green snake: Arrow keys</p>
-<p>Gray snake: I J K L</p>
+<p>Yellow snake: Arrow keys</p>
+<p>Green snake: I J K L</p>
 <p>Blue snake: W A S D</p>
 
 <script src="snake.js"></script>
@@ -17,10 +17,10 @@
     const game = new Game(document.getElementById("game"));
     let subFrame = 0;
     setInterval(() => {
-        game.update(subFrame % 3 !== 0);
+        game.update(subFrame % 4 !== 0);
         game.draw();
         subFrame++;
-    }, 100);
+    }, 70);
 </script>
 </body>
 </html>
