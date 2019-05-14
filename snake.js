@@ -15,30 +15,30 @@ class Snake {
         window.addEventListener("keydown", event => {
             if (this.canChangeDirection && this.alive) {
                 switch (event.key) {
-                    case this.keys[0]:
-                        if (this.direction !== 2) {
-                            this.canChangeDirection = false;
-                            this.direction = 0;
-                        }
-                        break;
-                    case this.keys[1]:
-                        if (this.direction !== 3) {
-                            this.canChangeDirection = false;
-                            this.direction = 1;
-                        }
-                        break;
-                    case this.keys[2]:
-                        if (this.direction !== 0) {
-                            this.canChangeDirection = false;
-                            this.direction = 2;
-                        }
-                        break;
-                    case this.keys[3]:
-                        if (this.direction !== 1) {
-                            this.canChangeDirection = false;
-                            this.direction = 3;
-                        }
-                        break;
+                case this.keys[0]:
+                    if (this.direction !== 2) {
+                        this.canChangeDirection = false;
+                        this.direction = 0;
+                    }
+                    break;
+                case this.keys[1]:
+                    if (this.direction !== 3) {
+                        this.canChangeDirection = false;
+                        this.direction = 1;
+                    }
+                    break;
+                case this.keys[2]:
+                    if (this.direction !== 0) {
+                        this.canChangeDirection = false;
+                        this.direction = 2;
+                    }
+                    break;
+                case this.keys[3]:
+                    if (this.direction !== 1) {
+                        this.canChangeDirection = false;
+                        this.direction = 3;
+                    }
+                    break;
                 }
             }
         });
@@ -104,27 +104,27 @@ class Snake {
 
     x() {
         switch (this.direction) {
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            case 2:
-                return 0;
-            case 3:
-                return -1;
+        case 0:
+            return 0;
+        case 1:
+            return 1;
+        case 2:
+            return 0;
+        case 3:
+            return -1;
         }
     }
 
     y() {
         switch (this.direction) {
-            case 0:
-                return 1;
-            case 1:
-                return 0;
-            case 2:
-                return -1;
-            case 3:
-                return 0;
+        case 0:
+            return 1;
+        case 1:
+            return 0;
+        case 2:
+            return -1;
+        case 3:
+            return 0;
         }
     }
 
