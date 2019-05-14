@@ -16,13 +16,52 @@ export default class Game {
     reset() {
         this.gameEnded = 0;
         this.snakes = [];
-        this.snakes.push(new Snake(this, 5, 5, [255, 255, 0], ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"]));
-        this.snakes.push(new Snake(this, 5, 12, [0, 255, 0], ["k", "l", "i", "j"]));
-        this.snakes.push(new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"]));
+        this.snakes.push(
+            new Snake(
+                this,
+                5,
+                5,
+                [255, 255, 0],
+                ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"]
+            )
+        );
+        this.snakes.push(
+            new Snake(this, 5, 12, [0, 255, 0], ["k", "l", "i", "j"])
+        );
+        this.snakes.push(
+            new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"])
+        );
         this.items = [];
-        this.items.push(new Item(this, "red", snake => snake.length++, () => { return true; }));
-        this.items.push(new Item(this, "#ff00ff", snake => snake.length += 5, () => { return Math.random() < 0.01; }));
-        this.items.push(new Item(this, "#ffffff", snake => snake.speed += 0.3, () => { return Math.random() < 0.005; }));
+        this.items.push(
+            new Item(
+                this,
+                "red",
+                snake => snake.length++,
+                () => {
+                    return true;
+                }
+            )
+        );
+        this.items.push(
+            new Item(
+                this,
+                "#ff00ff",
+                snake => (snake.length += 5),
+                () => {
+                    return Math.random() < 0.01;
+                }
+            )
+        );
+        this.items.push(
+            new Item(
+                this,
+                "#ffffff",
+                snake => (snake.speed += 0.3),
+                () => {
+                    return Math.random() < 0.005;
+                }
+            )
+        );
         this.draw();
     }
 
@@ -34,7 +73,10 @@ export default class Game {
                 if (snake.alive) {
                     this.items.forEach(item => {
                         if (item.visible) {
-                            if (item.x == snake.getHeadPosition()[0] && item.y == snake.getHeadPosition()[1]) {
+                            if (
+                                item.x == snake.getHeadPosition()[0] &&
+                                item.y == snake.getHeadPosition()[1]
+                            ) {
                                 item.oneat(snake);
                             }
                         } else {

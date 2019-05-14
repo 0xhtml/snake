@@ -13,7 +13,10 @@ export default class Item {
             this.visible = true;
             this.x = Math.floor(Math.random() * this.game.borders[0]);
             this.y = Math.floor(Math.random() * this.game.borders[1]);
-            if (this.game.checkCollisionWithSnakes(this.x, this.y, this) || this.game.checkCollisionWithItems(this.x, this.y, this)) {
+            if (
+                this.game.checkCollisionWithSnakes(this.x, this.y, this) ||
+                this.game.checkCollisionWithItems(this.x, this.y, this)
+            ) {
                 this.reset(true);
             }
         }

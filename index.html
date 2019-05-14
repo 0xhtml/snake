@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Snake</title>
-</head>
+  </head>
 
-<body style="text-align: center">
+  <body style="text-align: center">
     <h1>Snake</h1>
     <canvas id="game" style="background-color: black"></canvas>
     <p>Yellow snake: Arrow keys</p>
@@ -14,16 +13,15 @@
     <p>Blue snake: W A S D</p>
 
     <script type="module">
-        import Game from "./game.js";
-        const game = new Game(document.getElementById("game"));
-        var frame = 0;
-        function tick() {
-            game.update(frame);
-            game.draw();
-            frame++;
-        }
-        setInterval(tick, Math.floor(1000 / 30));
+      import Game from "./game.js";
+      const game = new Game(document.getElementById("game"));
+      var frame = 0;
+      function tick() {
+        game.update(frame);
+        game.draw();
+        frame++;
+      }
+      setInterval(tick, Math.floor(1000 / 30));
     </script>
-</body>
-
+  </body>
 </html>

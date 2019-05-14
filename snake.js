@@ -1,9 +1,7 @@
 export default class Snake {
     constructor(game, startX, startY, color, keys) {
         this.game = game;
-        this.snake = [
-            [startX, startY]
-        ];
+        this.snake = [[startX, startY]];
         this.color = color;
         this.keys = keys;
 
@@ -49,23 +47,40 @@ export default class Snake {
         if (this.alive) {
             if (frame % Math.floor(10 / this.speed) === 0) {
                 const snakeHeadPosition = this.getHeadPosition();
-                const newSnakeHeadPosition = [snakeHeadPosition[0] + this.x(), snakeHeadPosition[1] + this.y()];
+                const newSnakeHeadPosition = [
+                    snakeHeadPosition[0] + this.x(),
+                    snakeHeadPosition[1] + this.y()
+                ];
 
-                if (newSnakeHeadPosition[0] < 0 || newSnakeHeadPosition[1] < 0 || newSnakeHeadPosition[0] > this.game.borders[0] || newSnakeHeadPosition[1] > this.game.borders[1]) {
+                if (
+                    newSnakeHeadPosition[0] < 0 ||
+                    newSnakeHeadPosition[1] < 0 ||
+                    newSnakeHeadPosition[0] > this.game.borders[0] ||
+                    newSnakeHeadPosition[1] > this.game.borders[1]
+                ) {
                     this.alive = false;
                     return;
                 }
                 for (var position of this.snake) {
-                    if (position[0] === newSnakeHeadPosition[0] && position[1] === newSnakeHeadPosition[1]) {
+                    if (
+                        position[0] === newSnakeHeadPosition[0] &&
+                        position[1] === newSnakeHeadPosition[1]
+                    ) {
                         this.alive = false;
                         return;
                     }
                 }
-                if (this.game.checkCollisionWithSnakes(newSnakeHeadPosition[0], newSnakeHeadPosition[1], this)) {
+                if (
+                    this.game.checkCollisionWithSnakes(
+                        newSnakeHeadPosition[0],
+                        newSnakeHeadPosition[1],
+                        this
+                    )
+                ) {
                     this.alive = false;
                     return;
                 }
-                
+
                 this.snake.push(newSnakeHeadPosition);
                 if (this.snake.length > this.length) {
                     this.snake.splice(0, 1);
@@ -86,7 +101,11 @@ export default class Snake {
             var r = this.color[0];
             var g = this.color[1];
             var b = this.color[2];
-            if (this.snake[i][0] === snakeHeadPosition[0] && this.snake[i][1] === snakeHeadPosition[1] && this.alive) {
+            if (
+                this.snake[i][0] === snakeHeadPosition[0] &&
+                this.snake[i][1] === snakeHeadPosition[1] &&
+                this.alive
+            ) {
                 r += 127;
                 g += 127;
                 b += 127;
@@ -99,7 +118,12 @@ export default class Snake {
             g = Math.max(0, Math.min(255, g));
             b = Math.max(0, Math.min(255, b));
             ctx.fillStyle = "rgb(" + r + ", " + g + ", " + b + ")";
-            ctx.fillRect(this.snake[i][0] * 20 + 1, this.snake[i][1] * 20 + 1, 18, 18);
+            ctx.fillRect(
+                this.snake[i][0] * 20 + 1,
+                this.snake[i][1] * 20 + 1,
+                18,
+                18
+            );
         }
     }
 
