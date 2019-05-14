@@ -6,7 +6,7 @@ class Game {
         this.height = canvas.height;
         this.borders = [this.width / 20 - 1, this.height / 20 - 1];
         this.gameEnded = 0;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext("2d");
         this.reset();
     }
 
@@ -17,8 +17,8 @@ class Game {
         this.snakes.push(new Snake(this, 5, 12, [0, 255, 0], ["k", "l", "i", "j"]));
         this.snakes.push(new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"]));
         this.items = [];
-        this.items.push(new Item(this, "red", snake => snake.length++, () => { return true }));
-        this.items.push(new Item(this, "#ff00ff", snake => snake.length += 5, () => { return Math.random() < 0.001 }));
+        this.items.push(new Item(this, "red", snake => snake.length++, () => { return true; }));
+        this.items.push(new Item(this, "#ff00ff", snake => snake.length += 5, () => { return Math.random() < 0.001; }));
         this.draw();
     }
 
