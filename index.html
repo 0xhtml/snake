@@ -1,40 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Snake</title>
 </head>
+
 <body style="text-align: center">
-<h1>Snake</h1>
-<canvas id="game" style="background-color: black"></canvas>
-<p>Yellow snake: Arrow keys</p>
-<p>Green snake: I J K L</p>
-<p>Blue snake: W A S D</p>
-<p>
-    <label for="speedIn">Speed</label>
-    <input id="speedIn" max="99" min="0" onchange="speedOut()" onmousemove="speedOut()" type="range" value="30">
-    <span id="speedOut">30</span>
-</p>
+    <h1>Snake</h1>
+    <canvas id="game" style="background-color: black"></canvas>
+    <p>Yellow snake: Arrow keys</p>
+    <p>Green snake: I J K L</p>
+    <p>Blue snake: W A S D</p>
 
-<script src="snake.js"></script>
-<script src="game.js"></script>
-<script>
-    const game = new Game(document.getElementById("game"));
-    let subFrame = 0;
-
-    function tick() {
-        game.update(subFrame % 4 !== 0);
-        game.draw();
-        subFrame++;
-        setTimeout(tick, 100 - parseInt(document.getElementById("speedIn").value));
-    }
-
-    function speedOut() {
-        document.getElementById("speedOut").innerHTML = document.getElementById("speedIn").value;
-    }
-
-    speedOut();
-    setTimeout(tick, 100 - parseInt(document.getElementById("speedIn").value));
-</script>
+    <script src="game.js"></script>
+    <script src="item.js"></script>
+    <script src="snake.js"></script>
+    <script>
+        const game = new Game(document.getElementById("game"));
+        var frame = 0;
+        function tick() {
+            game.update(frame);
+            game.draw();
+            frame++;
+        }
+        setInterval(tick, Math.floor(1000 / 30));
+    </script>
 </body>
+
 </html>

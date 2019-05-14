@@ -1,15 +1,15 @@
 class Snake {
-    constructor(startX, startY, color, keys, borders) {
-        this.textX = 10;
-        this.textY = startY * 20 + 17;
-        this.snake = [[startX, startY]];
+    constructor(game, startX, startY, color, keys) {
+        this.game = game;
+        this.snake = [
+            [startX, startY]
+        ];
         this.color = color;
-        this.borders = borders;
+        this.keys = keys;
 
         this.direction = 1;
         this.canChangeDirection = true;
         this.length = 6;
-        this.keys = keys;
         this.alive = true;
 
         window.addEventListener("keydown", event => {
@@ -44,46 +44,47 @@ class Snake {
         });
     }
 
-    update(subFrame) {
+    update(frame) {
         if (this.alive) {
-            if (!subFrame) {
+            if (frame % 10 === 0) {
                 const snakeHeadPosition = this.getHeadPosition();
                 const newSnakeHeadPosition = [snakeHeadPosition[0] + this.x(), snakeHeadPosition[1] + this.y()];
 
-                for (let position of this.snake) {
+                if (newSnakeHeadPosition[0] < 0 || newSnakeHeadPosition[1] < 0 || newSnakeHeadPosition[0] > this.game.borders[0] || newSnakeHeadPosition[1] > this.game.borders[1]) {
+                    this.alive = false;
+                    return;
+                }
+                for (var position of this.snake) {
                     if (position[0] === newSnakeHeadPosition[0] && position[1] === newSnakeHeadPosition[1]) {
                         this.alive = false;
-                        break;
+                        return;
                     }
                 }
-                if (newSnakeHeadPosition[0] < this.borders[0] || newSnakeHeadPosition[1] < this.borders[1] || newSnakeHeadPosition[0] > this.borders[2] || newSnakeHeadPosition[1] > this.borders[3]) {
+                if (this.game.checkCollisionWithSnakes(newSnakeHeadPosition[0], newSnakeHeadPosition[1], this)) {
                     this.alive = false;
+                    return;
                 }
-
-                if (this.alive) {
-                    this.snake.push(newSnakeHeadPosition);
-                }
+                
+                this.snake.push(newSnakeHeadPosition);
                 if (this.snake.length > this.length) {
                     this.snake.splice(0, 1);
                 }
                 this.canChangeDirection = true;
             }
         } else {
-            this.snake.splice(0, 1);
+            if (frame % 3 === 0) {
+                this.snake.splice(0, 1);
+            }
         }
     }
 
     draw(ctx) {
-        ctx.fillStyle = "rgb(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ")";
-        ctx.font = "20px Arial";
-        ctx.fillText((this.length - 6).toString(), this.textX, this.textY);
-
         const snakeHeadPosition = this.getHeadPosition();
         const length = this.snake.length;
-        for (let i = 0; i < length; i++) {
-            let r = this.color[0];
-            let g = this.color[1];
-            let b = this.color[2];
+        for (var i = 0; i < length; i++) {
+            var r = this.color[0];
+            var g = this.color[1];
+            var b = this.color[2];
             if (this.snake[i][0] === snakeHeadPosition[0] && this.snake[i][1] === snakeHeadPosition[1] && this.alive) {
                 r += 127;
                 g += 127;
