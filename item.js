@@ -1,4 +1,4 @@
-class Item {
+export default class Item {
     constructor(game, color, oneataction, canspawn) {
         this.game = game;
         this.color = color;

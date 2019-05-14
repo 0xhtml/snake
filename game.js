@@ -1,4 +1,7 @@
-class Game {
+import Item from "./item.js";
+import Snake from "./snake.js";
+
+export default class Game {
     constructor(canvas) {
         canvas.width = 50 * 20;
         canvas.height = 25 * 20;

@@ -13,10 +13,8 @@
     <p>Green snake: I J K L</p>
     <p>Blue snake: W A S D</p>
 
-    <script src="game.js"></script>
-    <script src="item.js"></script>
-    <script src="snake.js"></script>
-    <script>
+    <script type="module">
+        import Game from "./game.js";
         const game = new Game(document.getElementById("game"));
         var frame = 0;
         function tick() {

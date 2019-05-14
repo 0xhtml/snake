@@ -1,4 +1,4 @@
-class Snake {
+export default class Snake {
     constructor(game, startX, startY, color, keys) {
         this.game = game;
         this.snake = [
