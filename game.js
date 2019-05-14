@@ -21,7 +21,8 @@ export default class Game {
         this.snakes.push(new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"]));
         this.items = [];
         this.items.push(new Item(this, "red", snake => snake.length++, () => { return true; }));
-        this.items.push(new Item(this, "#ff00ff", snake => snake.length += 5, () => { return Math.random() < 0.001; }));
+        this.items.push(new Item(this, "#ff00ff", snake => snake.length += 5, () => { return Math.random() < 0.01; }));
+        this.items.push(new Item(this, "#ffffff", snake => snake.speed += 0.3, () => { return Math.random() < 0.005; }));
         this.draw();
     }
 
@@ -37,7 +38,9 @@ export default class Game {
                                 item.oneat(snake);
                             }
                         } else {
-                            item.reset(false);
+                            if (frame % 10 === 0) {
+                                item.reset(false);
+                            }
                         }
                     });
                     livingSnakes++;

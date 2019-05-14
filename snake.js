@@ -11,6 +11,7 @@ export default class Snake {
         this.canChangeDirection = true;
         this.length = 6;
         this.alive = true;
+        this.speed = 1;
 
         window.addEventListener("keydown", event => {
             if (this.canChangeDirection && this.alive) {
@@ -46,7 +47,7 @@ export default class Snake {
 
     update(frame) {
         if (this.alive) {
-            if (frame % 10 === 0) {
+            if (frame % Math.floor(10 / this.speed) === 0) {
                 const snakeHeadPosition = this.getHeadPosition();
                 const newSnakeHeadPosition = [snakeHeadPosition[0] + this.x(), snakeHeadPosition[1] + this.y()];
 
