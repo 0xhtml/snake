@@ -11,8 +11,8 @@ export default class Item {
     reset(r) {
         if (r || this.canspawn()) {
             this.visible = true;
-            this.x = Math.floor(Math.random() * this.game.borders[0]);
-            this.y = Math.floor(Math.random() * this.game.borders[1]);
+            this.x = Math.floor(Math.random() * this.game.width);
+            this.y = Math.floor(Math.random() * this.game.height);
             if (
                 this.game.checkCollisionWithSnakes(this.x, this.y, this) ||
                 this.game.checkCollisionWithItems(this.x, this.y, this)

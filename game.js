@@ -3,11 +3,10 @@ import Snake from "./snake.js";
 
 export default class Game {
     constructor(canvas, settings) {
-        canvas.width = Math.floor(document.body.scrollWidth / 20) * 20;
-        canvas.height = Math.floor((document.body.scrollHeight - settings.scrollHeight) / 20) * 20;
-        this.width = canvas.width;
-        this.height = canvas.height;
-        this.borders = [this.width / 20 - 1, this.height / 20 - 1];
+        this.width = Math.floor(document.body.scrollWidth / 20);
+        this.height = Math.floor((document.body.scrollHeight - settings.scrollHeight) / 20);
+        canvas.width = this.width * 20;
+        canvas.height = this.height * 20;
         this.gameEnded = 0;
         this.ctx = canvas.getContext("2d");
         this.settings = settings.getElementsByTagName("input");
@@ -113,7 +112,7 @@ export default class Game {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx.clearRect(0, 0, this.width * 20, this.height * 20);
 
         this.snakes.forEach(snake => snake.draw(this.ctx));
         this.items.forEach(item => item.draw(this.ctx));

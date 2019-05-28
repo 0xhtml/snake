@@ -55,8 +55,8 @@ export default class Snake {
                 if (
                     newSnakeHeadPosition[0] < 0 ||
                     newSnakeHeadPosition[1] < 0 ||
-                    newSnakeHeadPosition[0] > this.game.borders[0] ||
-                    newSnakeHeadPosition[1] > this.game.borders[1]
+                    newSnakeHeadPosition[0] > this.game.width ||
+                    newSnakeHeadPosition[1] > this.game.height
                 ) {
                     this.alive = false;
                     return;
