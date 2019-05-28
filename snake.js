@@ -82,7 +82,7 @@ export default class Snake {
                 }
 
                 this.snake.push(newSnakeHeadPosition);
-                if (this.snake.length > this.length) {
+                if (this.snake.length > this.length && !this.game.settings[3].checked) {
                     this.snake.splice(0, 1);
                 }
                 this.canChangeDirection = true;

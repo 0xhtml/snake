@@ -3,18 +3,29 @@
     <head>
         <meta charset="UTF-8" />
         <title>Snake</title>
+        <style>
+            body, html {
+                height: 100%;
+            }
+            * {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
     </head>
 
-    <body style="text-align: center">
-        <h1>Snake</h1>
+    <body>
         <canvas id="game" style="background-color: black"></canvas>
-        <p>Yellow snake: Arrow keys</p>
-        <p>Green snake: I J K L</p>
-        <p>Blue snake: W A S D</p>
+        <div id="settings" style="width: 200px">
+            <p><input type="checkbox" id="1" checked><label for="1"> Yellow snake</label></p>
+            <p><input type="checkbox" id="2" checked><label for="2"> Green snake</label></p>
+            <p><input type="checkbox" id="3" checked><label for="3"> Blue snake</label></p>
+            <p><input type="checkbox" id="4"><label for="4"> Infinite</label></p>
+        </div>
 
         <script type="module">
             import Game from "./game.js";
-            const game = new Game(document.getElementById("game"));
+            const game = new Game(document.getElementById("game"), document.getElementById("settings"));
             var frame = 0;
             function tick() {
                 game.update(frame);

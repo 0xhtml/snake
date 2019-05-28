@@ -2,35 +2,42 @@ import Item from "./item.js";
 import Snake from "./snake.js";
 
 export default class Game {
-    constructor(canvas) {
-        canvas.width = 50 * 20;
-        canvas.height = 25 * 20;
+    constructor(canvas, settings) {
+        canvas.width = Math.floor(document.body.scrollWidth / 20) * 20;
+        canvas.height = Math.floor((document.body.scrollHeight - settings.scrollHeight) / 20) * 20;
         this.width = canvas.width;
         this.height = canvas.height;
         this.borders = [this.width / 20 - 1, this.height / 20 - 1];
         this.gameEnded = 0;
         this.ctx = canvas.getContext("2d");
+        this.settings = settings.getElementsByTagName("input");
         this.reset();
     }
 
     reset() {
         this.gameEnded = 0;
         this.snakes = [];
-        this.snakes.push(
-            new Snake(
-                this,
-                5,
-                5,
-                [255, 255, 0],
-                ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"]
-            )
-        );
-        this.snakes.push(
-            new Snake(this, 5, 12, [0, 255, 0], ["k", "l", "i", "j"])
-        );
-        this.snakes.push(
-            new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"])
-        );
+        if (this.settings[0].checked) {
+            this.snakes.push(
+                new Snake(
+                    this,
+                    5,
+                    5,
+                    [255, 255, 0],
+                    ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"]
+                )
+            );
+        }
+        if (this.settings[1].checked) {
+            this.snakes.push(
+                new Snake(this, 5, 12, [0, 255, 0], ["k", "l", "i", "j"])
+            );
+        }
+        if (this.settings[2].checked) {
+            this.snakes.push(
+                new Snake(this, 5, 19, [0, 0, 255], ["s", "d", "w", "a"])
+            );
+        }
         this.items = [];
         this.items.push(
             new Item(
@@ -88,7 +95,7 @@ export default class Game {
                     livingSnakes++;
                 }
             });
-            if (livingSnakes <= 1) {
+            if (livingSnakes < 1 || (this.snakes.length > 1 && livingSnakes < 2)) {
                 this.gameEnded = 1;
             }
         } else {
